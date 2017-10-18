@@ -8,13 +8,21 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "Todo.h"
+#import "CustomCellTableViewCell.h"
 
 @interface MasterViewController ()
+@property (nonatomic) NSMutableArray<Todo*> *objects;
+@property (nonatomic) Todo* myTodo;
+@property (nonatomic) NSMutableArray *myArr;
 
-@property NSMutableArray *objects;
+@property (nonatomic) CustomCellTableViewCell *customCell;
+
+
 @end
 
 @implementation MasterViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,14 +33,27 @@
     self.navigationItem.rightBarButtonItem = addButton;
 }
 
-
-- (void)viewWillAppear:(BOOL)animated {
+- (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewRowAction *complete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"COMPLETE" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        self.myTodo = [self.objects objectAtIndex:indexPath.row];
+        self.myTodo.completed = YES;
+        [self.tableView setEditing:NO];
+        [self.tableView reloadData];
+    }];
+    
+    complete.backgroundColor = [UIColor greenColor];
+    
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"DELETE" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        [self.objects removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView reloadData];
+    }];
+    return @[complete, delete];
+    
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated {
 }
 
 
@@ -40,9 +61,51 @@
     if (!self.objects) {
         self.objects = [[NSMutableArray alloc] init];
     }
-    [self.objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    UIAlertController* alert;
+    alert = [UIAlertController alertControllerWithTitle:@"ADD TODO" message:@"PLEASE ADD DETAILS" preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"TITLE";
+        textField.font = [UIFont systemFontOfSize:10];
+        textField.textAlignment = NSTextAlignmentCenter;
+        textField.text = self.customCell.titleLabel.text;
+    }];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"DESCRIPTION";
+        textField.font = [UIFont systemFontOfSize:10];
+        textField.textAlignment = NSTextAlignmentCenter;
+        textField.text = self.customCell.descriptionLabel.text;
+    }];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"PRIORITY";
+        textField.font = [UIFont systemFontOfSize:10];
+        textField.keyboardType = UIKeyboardTypeNumberPad;
+        textField.textAlignment = NSTextAlignmentCenter;
+        textField.text = self.customCell.priorityLabel.text;
+    }];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"Ok"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * _Nonnull action)
+                      {
+                          Todo *newTodo = [Todo new];
+                          newTodo.title = alert.textFields[0].text;
+                          newTodo.todoDescription = alert.textFields[1].text;
+                          newTodo.priority = [alert.textFields[2].text floatValue];
+                          [self.objects addObject:newTodo];
+                          [self.tableView reloadData];
+                      }]];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:nil];
+    [alert addAction: cancel];
+    [self presentViewController:alert animated:true completion:nil];
+    
+    
 }
 
 
@@ -51,9 +114,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.objects[indexPath.row];
+        Todo *object = self.objects[indexPath.row];
         DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
-        [controller setDetailItem:object];
+        [controller setMyTodo:object];
     }
 }
 
@@ -70,11 +133,12 @@
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+- (CustomCellTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CustomCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    Todo *todoToPass = [self.objects objectAtIndex:indexPath.row];
+    [cell configureWithTodo:todoToPass];
 
-    NSDate *object = self.objects[indexPath.row];
-    cell.textLabel.text = [object description];
     return cell;
 }
 

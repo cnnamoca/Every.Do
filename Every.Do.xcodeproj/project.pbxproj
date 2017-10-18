@@ -16,6 +16,8 @@
 		E60455071F96898D00D95136 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E60455061F96898D00D95136 /* main.m */; };
 		E60455111F96898D00D95136 /* Every_DoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E60455101F96898D00D95136 /* Every_DoTests.m */; };
 		E604551C1F96898D00D95136 /* Every_DoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E604551B1F96898D00D95136 /* Every_DoUITests.m */; };
+		E604552B1F9689AF00D95136 /* Todo.m in Sources */ = {isa = PBXBuildFile; fileRef = E604552A1F9689AF00D95136 /* Todo.m */; };
+		E604552E1F96A0D400D95136 /* CustomCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E604552D1F96A0D400D95136 /* CustomCellTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,10 @@
 		E60455171F96898D00D95136 /* Every.DoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Every.DoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E604551B1F96898D00D95136 /* Every_DoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Every_DoUITests.m; sourceTree = "<group>"; };
 		E604551D1F96898D00D95136 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E60455291F9689AF00D95136 /* Todo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Todo.h; sourceTree = "<group>"; };
+		E604552A1F9689AF00D95136 /* Todo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Todo.m; sourceTree = "<group>"; };
+		E604552C1F96A0D400D95136 /* CustomCellTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCellTableViewCell.h; sourceTree = "<group>"; };
+		E604552D1F96A0D400D95136 /* CustomCellTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCellTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +114,10 @@
 				E60454F51F96898D00D95136 /* AppDelegate.m */,
 				E60454F71F96898D00D95136 /* MasterViewController.h */,
 				E60454F81F96898D00D95136 /* MasterViewController.m */,
+				E604552C1F96A0D400D95136 /* CustomCellTableViewCell.h */,
+				E604552D1F96A0D400D95136 /* CustomCellTableViewCell.m */,
+				E60455291F9689AF00D95136 /* Todo.h */,
+				E604552A1F9689AF00D95136 /* Todo.m */,
 				E60454FA1F96898D00D95136 /* DetailViewController.h */,
 				E60454FB1F96898D00D95136 /* DetailViewController.m */,
 				E60454FD1F96898D00D95136 /* Main.storyboard */,
@@ -270,7 +280,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E604552B1F9689AF00D95136 /* Todo.m in Sources */,
 				E60454F91F96898D00D95136 /* MasterViewController.m in Sources */,
+				E604552E1F96A0D400D95136 /* CustomCellTableViewCell.m in Sources */,
 				E60454F61F96898D00D95136 /* AppDelegate.m in Sources */,
 				E60455071F96898D00D95136 /* main.m in Sources */,
 				E60454FC1F96898D00D95136 /* DetailViewController.m in Sources */,

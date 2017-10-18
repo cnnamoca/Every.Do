@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+//#import "CustomCellTableViewCell.h"
+#import "Todo.h"
 
 @interface DetailViewController : UIViewController
 
-@property (strong, nonatomic) id detailItem;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleDescriptionLabel;
 
+@property (nonatomic, strong) Todo *myTodo;
 @end
 
