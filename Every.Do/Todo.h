@@ -8,12 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum : NSUInteger {
-    LOW,
-    MEDIUM,
-    HIGH,
-} (priorityLevel);
-
 @interface Todo : NSObject
 
 @property (nonatomic) NSString *title;

@@ -39,10 +39,17 @@
         self.myTodo = [self.objects objectAtIndex:indexPath.row];
         self.myTodo.completed = YES;
         [self.tableView setEditing:NO];
+        //move object
+        Todo *temp = [self.objects objectAtIndex:indexPath.row];
+        [self.objects removeObjectAtIndex:indexPath.row];
+        [self.objects addObject:temp];
+        [self.tableView moveRowAtIndexPath:indexPath
+                               toIndexPath:[NSIndexPath indexPathForRow:self.objects.count - 1 inSection:0]];
+        //finish moving object
         [self.tableView reloadData];
     }];
     
-    complete.backgroundColor = [UIColor greenColor];
+    complete.backgroundColor = [UIColor darkGrayColor];
     
     UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"DELETE" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
         [self.objects removeObjectAtIndex:indexPath.row];
@@ -133,7 +140,8 @@
 }
 
 
-- (CustomCellTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CustomCellTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     CustomCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     Todo *todoToPass = [self.objects objectAtIndex:indexPath.row];
@@ -149,14 +157,14 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
-}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        [self.objects removeObjectAtIndex:indexPath.row];
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+//        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+//    }
+//}
 
 
 @end
